@@ -4,7 +4,6 @@
   import * as echarts from "echarts";
   import Layout from "./+layout.svelte";
 
-  export let data;
   const paths = [
     "/data/data_index.csv",
     "/data/data_maotai.csv",
