@@ -13,7 +13,7 @@
   let plots = [null, null, null];
 
   let stock = 0;
-  function plotChart(data, level, dom) {
+  function plotChart(data, dom) {
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(dom, null, {
       height: 400,
@@ -45,12 +45,20 @@
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
   }
+  let getDataReplot = async (no) => {
+    let response = await fetch(paths[no]);
+    let text = await response.text();
+    console.log(text);
+    let data = text.split("\n").map((line) => Number(line.split(",")[2])).slice(1);
+    console.log(data);
+    plots.forEach((plot) => plotChart(data, plot))
+  };
 
   $: button_style = [0, 1, 2].map((index) =>
     stock === index ? "tab tab-active" : "tab",
   );
 
-  onMount(() => plots.forEach((plot) => plotChart(null, null, plot)));
+  onMount(() => plots.forEach((plot) => plotChart(null, plot)));
 </script>
 
 <svelte:head>
@@ -70,8 +78,9 @@
   <a
     role="tab"
     class="tab {button_style[0]}"
-    on:click={() => {
+    on:click={async () => {
       stock = 0;
+      await getDataReplot(stock);
     }}>Index</a
   >
   <a
@@ -79,16 +88,15 @@
     class="tab {button_style[1]}"
     on:click={async () => {
       stock = 1;
-      let response = await fetch(paths[0]);
-      let text = await response.text();
-      console.log(text);
+      await getDataReplot(stock);
     }}>Maotai</a
   >
   <a
     role="tab"
     class="tab {button_style[2]}"
-    on:click={() => {
+    on:click={async () => {
       stock = 2;
+      await getDataReplot(stock);
     }}>Mengjie</a
   >
 </div>
