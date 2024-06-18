@@ -45,17 +45,9 @@
     myChart.setOption(option);
   }
 
-  $: active = ((stock) => {
-    let res = ["", "", ""];
-    res[stock] = "tab-active";
-    return res;
-  })(stock);
-
   $: button_style = [0, 1, 2].map((index) =>
     stock === index ? "tab tab-active" : "tab",
   );
-
-  console.log(button_style);
 
   onMount(() => plots.forEach((plot) => plotChart(null, null, plot)));
 </script>
@@ -76,27 +68,26 @@
 <div role="tablist" class="tabs tabs-boxed">
   <a
     role="tab"
-    class="tab {active[0]}"
+    class="tab {button_style[0]}"
     on:click={() => {
       stock = 0;
     }}>Index</a
   >
   <a
     role="tab"
-    class="tab {active[1]}"
+    class="tab {button_style[1]}"
     on:click={() => {
       stock = 1;
       fetch(paths[0])
         .then((response) => response.text())
         .then((text) => {
-          data = text;
-          console.log(data);
+          console.log(text);
         });
     }}>Maotai</a
   >
   <a
     role="tab"
-    class="tab {active[2]}"
+    class="tab {button_style[2]}"
     on:click={() => {
       stock = 2;
     }}>Mengjie</a
