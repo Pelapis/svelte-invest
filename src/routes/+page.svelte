@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import * as echarts from "echarts";
   import Layout from "./+layout.svelte";
-    import { text } from "@sveltejs/kit";
+  import { text } from "@sveltejs/kit";
 
   const paths = [
     "/data/data_index.csv",
@@ -49,9 +49,12 @@
     let response = await fetch(paths[no]);
     let text = await response.text();
     console.log(text);
-    let data = text.split("\n").map((line) => Number(line.split(",")[2])).slice(1);
+    let data = text
+      .split("\n")
+      .map((line) => Number(line.split(",")[2]))
+      .slice(1);
     console.log(data);
-    plots.forEach((plot) => plotChart(data, plot))
+    plots.forEach((plot) => plotChart(data, plot));
   };
 
   $: button_style = [0, 1, 2].map((index) =>
