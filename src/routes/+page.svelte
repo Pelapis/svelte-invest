@@ -3,7 +3,6 @@
   import { onMount } from "svelte";
   import * as echarts from "echarts";
   import Layout from "./+layout.svelte";
-  import { text } from "@sveltejs/kit";
 
   const paths = [
     "/data/data_index.csv",
