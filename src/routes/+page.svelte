@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import * as echarts from "echarts";
   import Layout from "./+layout.svelte";
+    import { text } from "@sveltejs/kit";
 
   const paths = [
     "/data/data_index.csv",
@@ -76,13 +77,11 @@
   <a
     role="tab"
     class="tab {button_style[1]}"
-    on:click={() => {
+    on:click={async () => {
       stock = 1;
-      fetch(paths[0])
-        .then((response) => response.text())
-        .then((text) => {
-          console.log(text);
-        });
+      let response = await fetch(paths[0]);
+      let text = await response.text();
+      console.log(text);
     }}>Maotai</a
   >
   <a
