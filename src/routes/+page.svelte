@@ -52,7 +52,7 @@
   })(stock);
 
   $: button_style = [0, 1, 2].map((index) =>
-    stock.value === index ? "tab tab-active" : "tab",
+    stock === index ? "tab tab-active" : "tab",
   );
 
   console.log(button_style);
